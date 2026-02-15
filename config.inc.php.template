@@ -18,6 +18,15 @@ define('STORE_NTLM_HASH', false);
 
 define('PAGETITLE', 'example.com User Admin');
 
+// Mail configuration
+// set MAIL_HOST to use SMTP or don't define it to use mail()
+
+// define('MAIL_HOST', '');
+// define('MAIL_PORT', 587);
+// define('MAIL_AUTH', true);
+// define('MAIL_USERNAME', '');
+// define('MAIL_PASSWORD', '');
+
 define('MAIL_SENDER', 'webteam@example.com');
 const MAIL_TEMPLATES = array(
   'addUser' => array(

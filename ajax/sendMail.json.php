@@ -12,13 +12,28 @@ $request = (array) json_decode($postdata);
 $mailform = $request['mailform'];
 
 $subject = mb_encode_mimeheader($mailform->subject, "UTF-8", "Q");
-$mailer = Mail::factory('mail');
+
 $headers = array(
   'Charset' => 'UTF-8',
   'Content-Type' => 'text/plain; charset="UTF-8"',
   'From' => $mailform->sender,
   'To' => $mailform->recipient,
-  'Subject' => $subject);
+  'Subject' => $subject
+);
+
+if (!defined('MAIL_HOST')) $mailer = Mail::factory('mail');
+else {
+	$params = array();
+	$params['host'] = MAIL_HOST;
+	$params['debug'] = true;
+	if (defined('MAIL_PORT')) $params['port'] = MAIL_PORT;
+	if (defined('MAIL_AUTH')) $params['auth'] = MAIL_AUTH;
+	if (defined('MAIL_USERNAME')) $params['username'] = MAIL_USERNAME;
+	if (defined('MAIL_PASSWORD')) $params['password'] = MAIL_PASSWORD;
+	
+	$mailer = Mail::factory('smtp', $params);
+	$headers['From'] = MAIL_SENDER;
+}
 
 
 $retval = array();
